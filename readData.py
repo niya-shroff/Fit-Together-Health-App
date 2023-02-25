@@ -2,6 +2,7 @@ import pandas as pd
 from Group import Group
 from Person import Person
 import calculatePts
+import subprocess
 
 df = pd.read_excel('healthData.xlsx')
 
@@ -46,12 +47,15 @@ for x in range(len(df)):
 
 #called every hour
 #takes in a path to a csv file (with the step data) and returns the number of steps taken in the last hour
-def parse_step_CSV(path: str): #example: C:\Users\Kelly\Desktop\step_data.csv
+def parse_step_CSV(path: str):
+    subprocess.run("heartbridge", shell = True) #run command in terminal to send step CSV to this folder
+
     df1 = pd.read_csv(path)
-    rows = len(df1) #3
+    rows = len(df1)
     df2 = pd.read_csv(path, index_col = False, skiprows = rows -  1) #get last row of csv (data from last hour)
     last_row = df2.to_string(index = False)
     arr = last_row.split()
-    return int(arr[3]) - int(arr[1])
+    print(arr)
+    return int(arr[5])
 
-#example: parse_step_CSV("/Users/kdeng/Downloads/Hackher/testCSV.csv")
+#example: parse_step_CSV("/Users/kdeng/Downloads/Hackher/steps-Feb24-2023.csv")
