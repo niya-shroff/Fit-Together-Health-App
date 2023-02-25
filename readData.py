@@ -59,3 +59,5 @@ def parse_step_CSV(path: str):
     return int(arr[5])
 
 #example: parse_step_CSV("/Users/kdeng/Downloads/Hackher/steps-Feb24-2023.csv")
+
+def parse_exercise_time():
