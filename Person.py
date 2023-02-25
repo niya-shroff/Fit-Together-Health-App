@@ -23,8 +23,8 @@ class Person:
         #updated every hour
         self.exercise_time += num_exercise_time
         
-    def add_bpm(self, num_bpm):
-        self.bpm += num_bpm
+    def change_bpm(self, num_bpm):
+        self.bpm = num_bpm
         
     def calc_progress(self):
         self.progress =
