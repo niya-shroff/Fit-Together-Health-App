@@ -3,21 +3,29 @@ from dash import dcc
 from dash import html
 import plotly.express as px
 import pandas as pd
+from personClass import Person
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash( __name__, external_stylesheets=external_stylesheets)
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+niya = Person("Niya", 8000, "60 Minutes", 20)
+kelly = Person("Kelly",6000, "60 Minutes", 17)
+laurie = Person("Laurie", 9000, "60 Minutes", 23)
+gauri = Person("Gauri", 5000, "60 Minutes", 15)
+mary = Person("Mary", 4000, "60 Minutes", 12)
+
+group = [niya, kelly, laurie, gauri, mary]
 
 stepsData = pd.DataFrame({
-    "Person": ["Niya", "Kelly", "Laurie", "Gauri", "Mary"],
-    "Average Weekly Steps": [8000, 5000, 10000, 5000, 7500],
+    "Person": [niya.name, kelly.name, laurie.name, gauri.name, mary.name],
+    "Average Weekly Steps": [niya.steps, kelly.steps, laurie.steps, gauri.steps, mary.steps],
     "Activity Level": ["Very Active", "Mildly Active", "Very Active", "Mildly Active", "Mildly Active"]
 })
 
 groupGoalPoints = pd.DataFrame({
-    "Person": ["Niya", "Kelly", "Laurie", "Gauri", "Mary"],
-    "Individual Points": [20, 100, 80, 180, 156],
-    "Activity Level": ["Very Active", "Mildly Active", "Very Active", "Mildly Active", "Mildly Active"]
+    "Person": [niya.name, kelly.name, laurie.name, gauri.name, mary.name],
+    "Individual Points": [niya.points, kelly.points, laurie.points, gauri.points, mary.points],
+    "Activity Level": ["Usually Very Active", "Usually Mildly Active", "Usually Very Active", " Usually Mildly Active", "Usually Mildly Active"]
 })
 
 bpmDataIndividual = pd.DataFrame({
@@ -25,9 +33,11 @@ bpmDataIndividual = pd.DataFrame({
     "Average Weekly BPM": [120, 100, 80, 180, 156, 200, 69],
 })
 
-steps = px.bar(stepsData, x="Person", y="Average Weekly Steps", color="Activity Level", barmode="group")
-bpm = px.line(bpmDataIndividual, x="Days", y="Average Weekly BPM")
+name = "Niya Shroff"
+steps = px.bar(stepsData, x="Person", y="Average Weekly Steps", color="Activity Level", barmode="group", title='Group Steps Breakdown')
 groupPie = px.pie(groupGoalPoints, values='Individual Points', names='Person', title='Group Goal Breakdown')
+
+bpm = px.line(bpmDataIndividual, x="Days", y="Average Weekly BPM", title= name + "'s Weekly BPM")
 
 app.layout = html.Div(children=[
     html.H1(children='HealthHack App'),

@@ -27,5 +27,3 @@ class Person:
         
     def calc_progress(self):
         self.progress =
-        #bruhhh stfu
-
