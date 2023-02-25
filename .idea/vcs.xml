@@ -2,5 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Interactive-charts-for-frontend-data-visualization-using-flask-and-D3js" vcs="Git" />
   </component>
 </project>
