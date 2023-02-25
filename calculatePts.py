@@ -3,8 +3,8 @@ import math
 #function takes in steps, amount of time in an hour that BPM is over 130 and calculates points for one person in that hour
 
 def calc_pts(person):
-    step_pts = math.floor(person.steps / 100)
-    exercise_pts = math.floor(person.exercise_time / 10) * 20
+    step_pts = math.floor(person.steps / 500)
+    exercise_pts = math.floor(person.exercise_time / 6)
     person.points += step_pts + exercise_pts
 
 #takes in a group of people and calculates their total points
