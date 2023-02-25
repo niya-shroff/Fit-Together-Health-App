@@ -43,3 +43,15 @@ for x in range(len(df)):
     new_person = Person(personData[0], personData[1], personData[3],0, personData[2])
     calculatePts.calc_pts(new_person)
     calculatePts.calc_group_pts(group)
+
+#called every hour
+#takes in a path to a csv file (with the step data) and returns the number of steps taken in the last hour
+def parse_step_CSV(path: str): #example: C:\Users\Kelly\Desktop\step_data.csv
+    df1 = pd.read_csv(path)
+    rows = len(df1) #3
+    df2 = pd.read_csv(path, index_col = False, skiprows = rows -  1) #get last row of csv (data from last hour)
+    last_row = df2.to_string(index = False)
+    arr = last_row.split()
+    return int(arr[3]) - int(arr[1])
+
+#example: parse_step_CSV("/Users/kdeng/Downloads/Hackher/testCSV.csv")
