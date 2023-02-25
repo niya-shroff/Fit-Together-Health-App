@@ -11,6 +11,8 @@ class Person:
         self.exercise_time = exercise_time
         self.points = points
         self.bpm = bpm
+        self.goal = goal #["60 exercise minutes", "10,000 steps"]
+        self.progress
 
     def add_steps(self, num_steps):
         #updated every hour
@@ -19,6 +21,11 @@ class Person:
     def add_exercise_time(self, num_exercise_time):
         #updated every hour
         self.exercise_time += num_exercise_time
+        
     def add_bpm(self, num_bpm):
         self.bpm += num_bpm
+        
+    def calc_progress(self):
+        self.progress =
+
 
