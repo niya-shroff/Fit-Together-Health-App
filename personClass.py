@@ -5,13 +5,14 @@ class Person:
     points = 0
     bpm = 0
 
-    def __init__(self, name, steps, exercise_time, points, bpm):
+    def __init__(self, name, steps, exercise_time, points, bpm, goal):
         self.name = name
         self.steps = steps
         self.exercise_time = exercise_time
         self.points = points
         self.bpm = bpm
-        self.goal = goal #["60 exercise minutes", "10,000 steps"]
+        self.goal = goal
+        #["60 exercise minutes", "10,000 steps"]
         self.progress
 
     def add_steps(self, num_steps):
