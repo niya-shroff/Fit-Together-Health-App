@@ -8,6 +8,7 @@ from time import sleep
 #called every hour
 #takes in a path to a csv file (with the step data) and returns the number of steps taken in the last hour
 def parse_step_CSV(path: str):
+    subprocess.run("cd data", shell=True)
     subprocess.run("heartbridge", shell = True) #run command in terminal to send step CSV to this folder
 
     df1 = pd.read_csv(path)

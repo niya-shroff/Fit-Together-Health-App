@@ -23,8 +23,8 @@ ourGroup = Group(friends, 0, 0)
 
 stepsData = pd.DataFrame({
     "Person": [niya.name, kelly.name, laurie.name, gauri.name, mary.name],
-    "Average Weekly Steps": [niya.steps, kelly.steps, laurie.steps, gauri.steps, mary.steps],
-    "Activity Level": ["Very Active", "Mildly Active", "Very Active", "Mildly Active", "Mildly Active"]
+    "Average Daily Steps": [niya.steps, kelly.steps, laurie.steps, gauri.steps, mary.steps],
+    "Activity Level": ["Rarely Active", "Mildly Active", "Very Active", "Mildly Active", "Mildly Active"]
 })
 
 groupGoalPoints = pd.DataFrame({
@@ -34,19 +34,29 @@ groupGoalPoints = pd.DataFrame({
                        "Usually Mildly Active"]
 })
 
-bpmDataIndividual = pd.DataFrame({
-    "Days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    "Average Weekly BPM": [120, 100, 80, 180, 156, 200, 69],
+bpmDataNiya = pd.DataFrame({
+    "Hours": ["6:00AM", "7:00AM", "8:00AM", "9:00AM", "10:00AM", "11:00AM", "12:00PM",
+              "1:00PM", "2:00PM", "3:00PM", "4:00PM", "5:00PM", "6:00PM", "7:00PM", "8:00PM",
+              "9:00PM", "10:00PM", "11:00PM", "12:00AM", "1:00AM", "2:00AM", "3:00AM", "4:00AM",
+              "5:00AM"],
+    "Average Daily BPM": [120, 34, 80, 180, 156, 200, 69, 120, 89, 80, 180, 156,
+                          120, 100, 80, 46, 156, 123, 69, 120, 34, 80, 90, 156]
 })
 
-steps = px.bar(stepsData, x="Person", y="Average Weekly Steps", color="Activity Level", barmode="group", title='Group Steps Breakdown')
+bpmDataKelly = pd.DataFrame({
+    "Hours": ["6:00AM", "7:00AM", "8:00AM", "9:00AM", "10:00AM", "11:00AM", "12:00PM",
+              "1:00PM", "2:00PM", "3:00PM", "4:00PM", "5:00PM", "6:00PM", "7:00PM", "8:00PM",
+              "9:00PM", "10:00PM", "11:00PM", "12:00AM", "1:00AM", "2:00AM", "3:00AM", "4:00AM",
+              "5:00AM"],
+    "Average Daily BPM": [80, 40, 120, 180, 156, 123, 69, 56, 100, 80, 180, 200,
+                          120, 100, 80, 180, 67, 150, 69, 120, 67, 80, 180, 123]
+})
+
+steps = px.bar(stepsData, x="Person", y="Average Daily Steps", color="Activity Level", barmode="group", title='Group Steps Breakdown')
 groupPie = px.pie(groupGoalPoints, values='Individual Points', names='Person', title='Group Goal Breakdown')
 
-bpmNiya = px.line(bpmDataIndividual, x="Days", y="Average Weekly BPM", title="Niya's Daily BPM")
-bpmKelly = px.line(bpmDataIndividual, x="Days", y="Average Weekly BPM", title="Kelly's Daily BPM")
-bpmLaurie = px.line(bpmDataIndividual, x="Days", y="Average Weekly BPM", title="Laurie's Daily BPM")
-bpmGauri = px.line(bpmDataIndividual, x="Days", y="Average Weekly BPM", title="Niya's Daily BPM")
-bpmMary = px.line(bpmDataIndividual, x="Days", y="Average Weekly BPM", title="Niya's Daily BPM")
+bpmNiya = px.line(bpmDataNiya, x="Hours", y="Average Daily BPM", title="Niya's Daily BPM")
+bpmKelly = px.line(bpmDataKelly, x="Hours", y="Average Daily BPM", title="Kelly's Daily BPM")
 
 logo = Image.open("data/fit together.png")
 rocket = Image.open("data/rocket.png")
@@ -63,37 +73,22 @@ app.layout = html.Div(children=[
         html.H3("Last Name"),
         dcc.Input(id='last-name-input', type='text'),
         html.Br(),
-        html.H3("Fitness Level"),
-        dcc.Dropdown(placeholder="Pick Me", id='fitness-level', options=["Rarely Active", "Mildly Active", "Very Active"], style={'width': '15%', 'padding-left': '43%', 'padding-right': '30%'}),
-        html.H3("Group Fitness Level"),
-        dcc.Dropdown(placeholder="Pick Me", id='group-fitness-level',
-                     options=["Rarely Active", "Mildly Active", "Very Active"],
-                     style={'width': '15%', 'padding-left': '43%', 'padding-right': '30%'}),
-        html.H2("", style={'textAlign': 'center', 'padding-bottom': '1%'}),
+        html.H3("Fitness Level Goal"),
+        dcc.Dropdown(placeholder="Pick Me", id='fitness-level',
+        options=["Rarely Active - 10 Points", "Mildly Active - 20 Points", "Very Active - 30 Points"],
+        style={'width': '15%', 'padding-left': '43%', 'padding-right': '30%', 'padding-bottom': '2%'}),
         html.Button('Submit Form', id='submit-form', n_clicks=0, style={'textAlign': 'center', 'width': '20%'})
     ], style={'textAlign': 'center', 'padding-bottom': '5%'}),
     html.Div(id='output-div'),
 
     html.H2(children='Individual Data Visualization', style={'textAlign': 'center'}),
     dcc.Graph(
-        id='weekly-bpm-individual1',
+        id='daily-bpm-individual1',
         figure=bpmNiya
     ),
     dcc.Graph(
-        id='weekly-bpm-individual2',
+        id='daily-bpm-individual2',
         figure=bpmKelly
-    ),
-    dcc.Graph(
-        id='weekly-bpm-individual3',
-        figure=bpmLaurie
-    ),
-    dcc.Graph(
-        id='weekly-bpm-individual4',
-        figure=bpmGauri
-    ),
-    dcc.Graph(
-        id='weekly-bpm-individual5',
-        figure=bpmMary
     ),
 
     html.H2(children='Group Data Visualization', style={'textAlign': 'center'}),
@@ -102,7 +97,7 @@ app.layout = html.Div(children=[
         figure=groupPie
     ),
     dcc.Graph(
-        id='weekly-steps',
+        id='daily-steps',
         figure=steps
     )
 ])
@@ -113,16 +108,16 @@ app.layout = html.Div(children=[
     [Input('submit-form', 'n_clicks')],
     [State('first-name-input', 'value'),
      State('last-name-input', 'value'),
-     State('fitness-level', 'value'),
-     State('group-fitness-level', 'value')]
+     State('fitness-level', 'value')]
 )
-def update_output(n_clicks, firstName, lastName, fitnessLevel, groupFitness):
+
+def update_output(n_clicks, firstName, lastName, fitnessLevel):
     if n_clicks > 0:
-        df = pd.DataFrame([[firstName, lastName, fitnessLevel, groupFitness]], columns=["First Name", "Last Name", "Individual Fitness Level", "Group Fitness Level"])
-        with ExcelWriter("personData.xlsx") as writer:
+        fitnessLevelSplit = fitnessLevel.split('- ')
+        points = fitnessLevelSplit[1].split('Points')
+        df = pd.DataFrame([[firstName, lastName, points[0]]], columns=["First Name", "Last Name", "Individual Points Goal"])
+        with ExcelWriter("data/%s.xlsx", firstName) as writer:
             df.to_excel(writer)
-
-
 
 if __name__ == '__main__':
     app.run_server(debug=True)

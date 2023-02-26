@@ -30,3 +30,5 @@ Werkzeug==2.0.2
 dash~=2.8.1
 plotly~=5.13.1
 APScheduler~=3.10.0
+Pillow~=9.4.0
+pyserial~=3.5
