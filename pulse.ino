@@ -15,32 +15,24 @@ void setup() {
 
 int BPM_min[500];
 int count = 0;
+int timeFirst = millis();
+int timeSecond;
 void loop() {
   if (pulseSensor.sawStartOfBeat()) {
-    int timeFirst = millis();
-    int timeSecond;
     
     float pulseVal = analogRead(PULSEPIN);
-    Serial.print("Pulse: ");
-    Serial.println(pulseVal);
-    int BPM = pulseSensor.getBeatsPerMinute();
-    Serial.print("BPM: ");
+    /*Serial.print("Pulse: ");
+    Serial.println(pulseVal);*/
+    //int BPM = pulseSensor.getBeatsPerMinute();
+    /*Serial.print("BPM: ");
     Serial.println(BPM);
     BPM_min[count] = BPM;
-    count+=1;
+    count+=1;*/
 
     timeSecond = millis();
-    if (timeSecond >= timeFirst + 60000) {
-      Serial.println("Hello"); //test if this loop ever runs
-      float BPM_min_avg;
-    
-      for (int i=0; i < count; i++) {
-        BPM_min_avg += BPM_min[i];
-      }
-      
-      BPM_min_avg = BPM_min_avg / (count+1);
-      Serial.println(BPM_min_avg);
-      count = 0;
+    if (timeSecond >= timeFirst + 6000) {
+      Serial.println(pulseSensor.getBeatsPerMinute());
+      timeFirst = timeSecond;
     }
     
   }
