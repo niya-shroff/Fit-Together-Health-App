@@ -124,7 +124,6 @@ def update_output(n_clicks, firstName, lastName, indGoal, groupGoal):
         with ExcelWriter("personData.xlsx") as writer:
             df.to_excel(writer)
 
-        print(firstName, lastName, indGoal, groupGoal)
 
 
 if __name__ == '__main__':
