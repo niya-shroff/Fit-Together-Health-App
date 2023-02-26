@@ -9,7 +9,7 @@ from time import sleep
 #this group's points must be updated
     person1 = Person("Niya", 0, 0, 0, 0, 100)
     person2 = Person("Kelly", 0, 0, 0, 0, 100)
-    groupArr = Group([person1, person2], 1000, False)
+    group = Group([person1, person2], 1000, False)
 
 def update():
     for x in group:
