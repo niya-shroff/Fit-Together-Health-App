@@ -3,6 +3,7 @@ from dash import dcc
 from dash import html
 import plotly.express as px
 import pandas as pd
+from pandas import ExcelWriter
 from Person import Person
 from dash.dependencies import Input, Output, State
 
@@ -88,7 +89,9 @@ app.layout = html.Div(children=[
 )
 def update_output(n_clicks, name, email):
     if n_clicks > 0:
-        pd.write_to_csv();
+        df = pd.DataFrame([[name, email]], columns=["Name", "Email"])
+        with ExcelWriter("path_to_file.xlsx") as writer:
+            df.to_excel(writer)
         print(f"Thank you, {name} ({email}), for submitting the form!")
 
 

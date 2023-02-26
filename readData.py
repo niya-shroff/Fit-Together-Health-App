@@ -5,26 +5,6 @@ from Person import Person
 from apscheduler.schedulers.background import BackgroundScheduler
 from time import sleep
 
-#this group's points must be updated
-    person1 = Person("Niya", 0, 0, 0, 0, 100)
-    person2 = Person("Kelly", 0, 0, 0, 0, 100)
-    group = Group([person1, person2], 1000, False)
-
-def update():
-    for x in group:
-        steps = parse_step_CSV('data/healthData.xlsx')
-        x.addSteps(steps)
-        timeExercised = parse_exercise_time('data/healthData.xlsx')
-        x.add_exercise_time(timeExercised)
-        x.calc_group_pts(x)
-
-sched = BackgroundScheduler()
-sched.add_job(update, 'interval', seconds = 3600)
-sched.start()
-
-while True:
-    sleep(1)
-
 #called every hour
 #takes in a path to a csv file (with the step data) and returns the number of steps taken in the last hour
 def parse_step_CSV(path: str):
@@ -51,3 +31,23 @@ def parse_exercise_time(path: str):
     return exercise_time #exercise_time from last hour
 
 #parse_exercise_time("/Users/kdeng/Downloads/Hackher/testBPM.csv")
+
+#this group's points must be updated
+    person1 = Person("Niya", 0, 0, 0, 0, 100)
+    person2 = Person("Kelly", 0, 0, 0, 0, 100)
+    group = Group([person1, person2], 1000, False)
+
+def update():
+    for x in group:
+        steps = parse_step_CSV('data/healthData.xlsx')
+        x.addSteps(steps)
+        timeExercised = parse_exercise_time('data/healthData.xlsx')
+        x.add_exercise_time(timeExercised)
+        x.calc_group_pts(x)
+
+sched = BackgroundScheduler()
+sched.add_job(update, 'interval', seconds = 3600)
+sched.start()
+
+while True:
+    sleep(1)
