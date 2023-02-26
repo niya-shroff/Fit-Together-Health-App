@@ -1,4 +1,4 @@
-from personClass import Person
+from Person import Person
 class Group:
     friends = []
     curr_group_points = 0
@@ -21,3 +21,9 @@ class Group:
     def goal_Fulfilled(self):
         if self.curr_group_goal >= self.group_point_goal:
             self.goal_fulfilled = True
+
+    def calc_group_pts(self):
+        group_pts = self.curr_group_points
+        friends_arr = self.friends
+        for friend in friends_arr:
+            group_pts += friend.pts

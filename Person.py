@@ -1,3 +1,6 @@
+import math
+
+from Group import Group
 class Person:
     name = ""
     steps = 0
@@ -27,4 +30,9 @@ class Person:
         self.bpm = num_bpm
         
     def calc_progress(self):
-        self.progress =
+        self.progress = "ney"
+
+    def calc_pts(self):
+        step_pts = math.floor(self.steps / 500)
+        exercise_pts = math.floor(self.exercise_time / 6)
+        self.points += step_pts + exercise_pts
