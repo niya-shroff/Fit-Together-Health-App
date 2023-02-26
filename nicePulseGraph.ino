@@ -7,7 +7,7 @@
 PulseSensorPlayground pulseSensor;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(4800);
   int threshold = 550;
   pulseSensor.setThreshold(threshold);
 
@@ -18,7 +18,6 @@ void loop() {
     float pulseVal = analogRead(PULSEPIN);
     Serial.print("Pulse: ");
     Serial.println(pulseVal);
-    
   }
 
   
