@@ -1,10 +1,9 @@
+import subprocess
 import pandas as pd
 from Group import Group
 from Person import Person
-import calculatePts
 from apscheduler.schedulers.background import BackgroundScheduler
 from time import sleep
-
 
 #this group's points must be updated
     person1 = Person("Niya", 0, 0, 0, 0, 100)
@@ -13,14 +12,11 @@ from time import sleep
 
 def update():
     for x in group:
-        steps = parse_step_CSV(PTAHHHAHSJDASHD)
+        steps = parse_step_CSV('data/healthData.xlsx')
         x.addSteps(steps)
-        timeExercised = parse_exercise_time(SFDJDHSHsDFH)
+        timeExercised = parse_exercise_time('data/healthData.xlsx')
         x.add_exercise_time(timeExercised)
-        calculatePts.calc_pts(x)
-
-    calculatePts.calc_group_pts(group)
-
+        x.calc_group_pts(x)
 
 sched = BackgroundScheduler()
 sched.add_job(update, 'interval', seconds = 3600)
@@ -28,7 +24,6 @@ sched.start()
 
 while True:
     sleep(1)
-    
 
 #called every hour
 #takes in a path to a csv file (with the step data) and returns the number of steps taken in the last hour
