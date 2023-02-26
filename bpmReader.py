@@ -1,9 +1,6 @@
 import serial
-try:
-    # follow this website: https://www.instructables.com/Sending-Data-From-Arduino-to-Python-Via-USB/
-    ardruino = serial.Serial('/ArduinoReader', timeout=1)
-except:
-    print("Please check the port")
+ardruino = serial.Serial('/dev/cu.usbserial-02328966', timeout=1, baudrate=9600)
+
 bpmData = []
 count = 0
 while count < 60:
