@@ -4,6 +4,7 @@ from dash import html
 import plotly.express as px
 import pandas as pd
 from pandas import ExcelWriter
+from PIL import Image
 from Person import Person
 from Group import Group
 from dash.dependencies import Input, Output, State
@@ -47,44 +48,31 @@ bpmLaurie = px.line(bpmDataIndividual, x="Days", y="Average Weekly BPM", title="
 bpmGauri = px.line(bpmDataIndividual, x="Days", y="Average Weekly BPM", title="Niya's Daily BPM")
 bpmMary = px.line(bpmDataIndividual, x="Days", y="Average Weekly BPM", title="Niya's Daily BPM")
 
-app.layout = html.Div(children=[
-    html.H1(children='Fit Together', style={'textAlign': 'center'}),
-    html.Div(children='''
-        A collaborative health application that allows 
-        individuals to reach their personal goals with their friends
-        while working towards the group's goal. Individuals select a point goal
-        for themselves and their group which includes their friends.
-    ''', style={'textAlign': 'center'}),
+logo = Image.open("data/fit together.png")
+rocket = Image.open("data/rocket.png")
 
-    # Form for basic information
-    html.H2("Enter Your Information", style={'textAlign': 'center'}),
+app.layout = html.Div(children=[
+    html.Img(src=logo, style={'width': '30%', 'height': '30%', 'padding-left':'37%', 'padding-right':'25%'},),
+    html.H3(children='''The app that takes fitness with friends to whole new level.''', style={"textAlign": 'center'}),
+    html.H3(children='''Please enter your information below to get started!''', style={"textAlign": 'center', 'padding-bottom': '5%'}),
+    html.Img(src=rocket, style={'width': '15%', 'height': '15%', 'padding-left': '43%', 'padding-right': '28%'}, ),
     html.Form([
-        html.Label("First Name"),
+        html.H3("First Name"),
         dcc.Input(id='first-name-input', type='text'),
         html.Br(),
-        html.Label("Last Name"),
+        html.H3("Last Name"),
         dcc.Input(id='last-name-input', type='text'),
         html.Br(),
-        html.Label("Individual Point Goal"),
-        dcc.Input(id='individual-goal-input', type='number'),
-        html.Br(),
-        html.Label("Group Point Goal"),
-        dcc.Input(id='group-goal-input', type='number'),
-        html.Br(),
-        html.H2("", style={'textAlign': 'center'}),
-        html.Button('Submit', id='submit-form', n_clicks=0)
-    ], style={'textAlign': 'center'}),
+        html.H3("Fitness Level"),
+        dcc.Dropdown(placeholder="Pick Me", id='fitness-level', options=["Rarely Active", "Mildly Active", "Very Active"], style={'width': '15%', 'padding-left': '43%', 'padding-right': '30%'}),
+        html.H3("Group Fitness Level"),
+        dcc.Dropdown(placeholder="Pick Me", id='group-fitness-level',
+                     options=["Rarely Active", "Mildly Active", "Very Active"],
+                     style={'width': '15%', 'padding-left': '43%', 'padding-right': '30%'}),
+        html.H2("", style={'textAlign': 'center', 'padding-bottom': '1%'}),
+        html.Button('Submit Form', id='submit-form', n_clicks=0, style={'textAlign': 'center', 'width': '20%'})
+    ], style={'textAlign': 'center', 'padding-bottom': '5%'}),
     html.Div(id='output-div'),
-
-    html.H2(children='Group Data Visualization', style={'textAlign': 'center'}),
-    dcc.Graph(
-        id='group-pie',
-        figure=groupPie
-    ),
-    dcc.Graph(
-        id='weekly-steps',
-        figure=steps
-    ),
 
     html.H2(children='Individual Data Visualization', style={'textAlign': 'center'}),
     dcc.Graph(
@@ -106,6 +94,16 @@ app.layout = html.Div(children=[
     dcc.Graph(
         id='weekly-bpm-individual5',
         figure=bpmMary
+    ),
+
+    html.H2(children='Group Data Visualization', style={'textAlign': 'center'}),
+    dcc.Graph(
+        id='group-pie',
+        figure=groupPie
+    ),
+    dcc.Graph(
+        id='weekly-steps',
+        figure=steps
     )
 ])
 
@@ -115,12 +113,12 @@ app.layout = html.Div(children=[
     [Input('submit-form', 'n_clicks')],
     [State('first-name-input', 'value'),
      State('last-name-input', 'value'),
-     State('individual-goal-input', 'value'),
-     State('group-goal-input', 'value')]
+     State('fitness-level', 'value'),
+     State('group-fitness-level', 'value')]
 )
-def update_output(n_clicks, firstName, lastName, indGoal, groupGoal):
+def update_output(n_clicks, firstName, lastName, fitnessLevel, groupFitness):
     if n_clicks > 0:
-        df = pd.DataFrame([[firstName, lastName, indGoal, groupGoal]], columns=["First Name", "Last Name", "Individual Point Goal", "Group Point Goal"])
+        df = pd.DataFrame([[firstName, lastName, fitnessLevel, groupFitness]], columns=["First Name", "Last Name", "Individual Fitness Level", "Group Fitness Level"])
         with ExcelWriter("personData.xlsx") as writer:
             df.to_excel(writer)
 
