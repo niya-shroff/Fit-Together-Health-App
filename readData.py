@@ -1,6 +1,6 @@
 import pandas as pd
-from Group import Group
-from Person import Person
+from classGroup import Group
+from personClass import Person
 import calculatePts
 from apscheduler.schedulers.background import BackgroundScheduler
 from time import sleep
@@ -68,8 +68,18 @@ def parse_step_CSV(path: str):
     last_row = df2.to_string(index = False)
     arr = last_row.split()
     print(arr)
-    return int(arr[5])
+    return int(arr[5]) #steps from last hour
 
 #example: parse_step_CSV("/Users/kdeng/Downloads/Hackher/steps-Feb24-2023.csv")
 
-def parse_exercise_time():
+def parse_exercise_time(path: str):
+    df = pd.read_csv(path, index_col = False, skiprows = 1)
+    s = df.to_string(index = False)
+    arr = s.split()
+    exercise_time = 0
+    for bpm in arr:
+        if int(bpm) > 130:
+            exercise_time += 1
+    return exercise_time #exercise_time from last hour
+
+#parse_exercise_time("/Users/kdeng/Downloads/Hackher/testBPM.csv")
