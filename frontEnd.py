@@ -3,8 +3,7 @@ from dash import dcc
 from dash import html
 import plotly.express as px
 import pandas as pd
-from personClass import Person
-from pymongo import MongoClient
+from Person import Person
 from dash.dependencies import Input, Output, State
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -89,7 +88,8 @@ app.layout = html.Div(children=[
 )
 def update_output(n_clicks, name, email):
     if n_clicks > 0:
-       print(f"Thank you, {name} ({email}), for submitting the form!")
+        pd.write_to_csv();
+        print(f"Thank you, {name} ({email}), for submitting the form!")
 
 
 if __name__ == '__main__':
