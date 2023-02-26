@@ -7,7 +7,7 @@ import serial
 
 #initialize serial port
 ser = serial.Serial()
-ser.port = '/dev/ttyACM0' #Arduino serial port
+ser.port = '/dev/cu.usbserial-02328966' #Arduino serial port
 ser.baudrate = 9600
 ser.timeout = 10 #specify timeout when using readline()
 ser.open()
@@ -22,10 +22,11 @@ fig = plt.figure()
 def animate(i, xs, ys):
 
     #Aquire and parse data from serial port
-    line=ser.readline()      #ascii
+    line=ser.readline()
     line_as_list = line.split(b',')
     i = int(line_as_list[0])
     BPM = line_as_list[1]
     relProb_as_list = BPM.split(b'\n')
     relProb_float = float(relProb_as_list[0])
-	
+
+animate(10, 10, 10)

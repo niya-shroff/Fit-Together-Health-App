@@ -39,8 +39,9 @@ bpmDataNiya = pd.DataFrame({
               "1:00PM", "2:00PM", "3:00PM", "4:00PM", "5:00PM", "6:00PM", "7:00PM", "8:00PM",
               "9:00PM", "10:00PM", "11:00PM", "12:00AM", "1:00AM", "2:00AM", "3:00AM", "4:00AM",
               "5:00AM"],
-    "Average Daily BPM": [120, 34, 80, 180, 156, 200, 69, 120, 89, 80, 180, 156,
-                          120, 100, 80, 46, 156, 123, 69, 120, 34, 80, 90, 156]
+    # we would read from the bpm.xlsx file for the actual BPM values
+    "Average Daily BPM": [87, 55, 80, 180, 156, 200, 69, 120, 89, 80, 180, 156,
+                          120, 100, 80, 192, 156, 123, 69, 120, 34, 80, 90, 156]
 })
 
 stepsDataNiya = pd.DataFrame({
