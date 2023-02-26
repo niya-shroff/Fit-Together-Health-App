@@ -1,4 +1,4 @@
-import Person
+from personClass import Person
 class Group:
     friends = []
     curr_group_points = 0

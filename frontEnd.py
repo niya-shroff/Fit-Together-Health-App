@@ -4,15 +4,17 @@ from dash import html
 import plotly.express as px
 import pandas as pd
 from personClass import Person
+from pymongo import MongoClient
+from dash.dependencies import Input, Output, State
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash( __name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-niya = Person("Niya", 8000, "60 Minutes", 20)
-kelly = Person("Kelly",6000, "60 Minutes", 17)
-laurie = Person("Laurie", 9000, "60 Minutes", 23)
-gauri = Person("Gauri", 5000, "60 Minutes", 15)
-mary = Person("Mary", 4000, "60 Minutes", 12)
+niya = Person("Niya", 8000, "60 Minutes", 20, 120, "60 Mins", "10%")
+kelly = Person("Kelly", 6000, "60 Minutes", 17, 120, "60 Mins", "10%")
+laurie = Person("Laurie", 9000, "60 Minutes", 23, 120, "60 Mins", "10%")
+gauri = Person("Gauri", 5000, "60 Minutes", 15, 120, "60 Mins", "10%")
+mary = Person("Mary", 4000, "60 Minutes", 12, 120, "60 Mins", "10%")
 
 group = [niya, kelly, laurie, gauri, mary]
 
@@ -25,7 +27,8 @@ stepsData = pd.DataFrame({
 groupGoalPoints = pd.DataFrame({
     "Person": [niya.name, kelly.name, laurie.name, gauri.name, mary.name],
     "Individual Points": [niya.points, kelly.points, laurie.points, gauri.points, mary.points],
-    "Activity Level": ["Usually Very Active", "Usually Mildly Active", "Usually Very Active", " Usually Mildly Active", "Usually Mildly Active"]
+    "Activity Level": ["Usually Very Active", "Usually Mildly Active", "Usually Very Active", " Usually Mildly Active",
+                       "Usually Mildly Active"]
 })
 
 bpmDataIndividual = pd.DataFrame({
@@ -34,20 +37,33 @@ bpmDataIndividual = pd.DataFrame({
 })
 
 name = "Niya Shroff"
-steps = px.bar(stepsData, x="Person", y="Average Weekly Steps", color="Activity Level", barmode="group", title='Group Steps Breakdown')
+steps = px.bar(stepsData, x="Person", y="Average Weekly Steps", color="Activity Level", barmode="group",
+               title='Group Steps Breakdown')
 groupPie = px.pie(groupGoalPoints, values='Individual Points', names='Person', title='Group Goal Breakdown')
-
-bpm = px.line(bpmDataIndividual, x="Days", y="Average Weekly BPM", title= name + "'s Weekly BPM")
+bpm = px.line(bpmDataIndividual, x="Days", y="Average Weekly BPM", title=name + "'s Weekly BPM")
 
 app.layout = html.Div(children=[
-    html.H1(children='HealthHack App'),
+    html.H1(children='HealthHack App', style={'textAlign': 'center'}),
     html.Div(children='''
         A collaborative health application that allows 
         individuals to reach their personal goals with their friends
         while working towards the group's goal.
-    '''),
+    ''', style={'textAlign': 'center'}),
 
-    html.H2(children='Group Data Visualization'),
+    # Form for basic information
+    html.H1("Example Form"),
+    html.Form([
+        html.Label("Name"),
+        dcc.Input(id='name-input', type='text'),
+        html.Br(),
+        html.Label("Email"),
+        dcc.Input(id='email-input', type='email'),
+        html.Br(),
+        html.Button('Submit', id='submit-form', n_clicks=0)
+    ]),
+    html.Div(id='output-div'),
+
+    html.H2(children='Group Data Visualization', style={'textAlign': 'center'}),
     dcc.Graph(
         id='group-pie',
         figure=groupPie
@@ -57,12 +73,24 @@ app.layout = html.Div(children=[
         figure=steps
     ),
 
-    html.H2(children='Individual Data Visualization'),
+    html.H2(children='Individual Data Visualization', style={'textAlign': 'center'}),
     dcc.Graph(
         id='weekly-bpm-individual',
         figure=bpm
     )
 ])
+
+
+@app.callback(
+    Output('output-div', 'children'),
+    [Input('submit-form', 'n_clicks')],
+    [State('name-input', 'value'),
+     State('email-input', 'value')]
+)
+def update_output(n_clicks, name, email):
+    if n_clicks > 0:
+       print(f"Thank you, {name} ({email}), for submitting the form!")
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
