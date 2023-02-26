@@ -51,7 +51,7 @@ app.layout = html.Div(children=[
     ''', style={'textAlign': 'center'}),
 
     # Form for basic information
-    html.H1("Example Form"),
+    html.H1("Fill Out Your Information Here"),
     html.Form([
         html.Label("Name"),
         dcc.Input(id='name-input', type='text'),
